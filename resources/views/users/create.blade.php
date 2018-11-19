@@ -8,7 +8,7 @@
     </form> --}}
 
     <div class="col-md-8">
-        {{--Fungsi ini untuk menampilkan notif dari action usercontroller  --}}
+        {{--Fungsi ini untuk menampilkan notif dari action  store ketika sudah diinput usercontroller  --}}
         @if(session('status'))
             <div class="alert alert-success"> 
                 {{session('status')}}

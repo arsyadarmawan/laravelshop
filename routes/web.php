@@ -25,4 +25,4 @@ Route::match(["GET", "POST"], "/register", function(){
     return redirect("/login"); 
 })->name("register");
 
-Route::resource("users", "UserController");
+Route::resource("users", "UserController"); //users/action cth users/create 

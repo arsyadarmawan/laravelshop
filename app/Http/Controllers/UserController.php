@@ -12,10 +12,17 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = \App\User::paginate(10);
+        $filterKeyword = $request->get('keyword');
+
+        if($filterKeyword){
+            $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")->paginate(10);
+        }
+        
         return view('users.index', ['users' => $users]);
+        
     }
 
     /**
@@ -66,7 +73,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = \App\User::FindorFail($id);
+        return view('users.show',['users' => $user]);
     }
 
     /**
@@ -77,7 +85,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = \App\User::FindorFail($id); //FindorFail untuk mencari apakah id ditemukan atau tidak
+        return view('users.edit',['users' => $user]);  
     }
 
     /**
@@ -89,7 +98,22 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = \App\User::FindorFail($id); //FindorFail untuk mencari apakah id ditemukan atau tidak
+        $user->name = $request->get('name');
+        $user->roles = json_encode($request->get('roles'));
+        $user->address = $request->get('address');
+        $user->phone = $request->get('phone');
+        $user->status = $request->get('status');
+        
+        if(($user->avatar) && (file_exists(storage_path('app/public'.$user->avatar)))){
+            \Storage::delete('public/'.$user->avatar);
+            $file = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $file;
+        };
+
+        $user->save();
+        return redirect()->route('users.edit',['id' => $id])->with('status','User succesfully updated');
+        // return view('users.edit',['users' => $user]);  
     }
 
     /**
@@ -100,6 +124,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = \App\User::FindorFail($id);
+        $user->delete();
+        return redirect()->route('users.index')->with('status','user successfully deleted');
     }
 }

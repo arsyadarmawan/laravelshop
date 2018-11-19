@@ -1,5 +1,5 @@
 @extends('layouts.global')
-
+@section("title") Home @endsection <!--untuk menambahkan judul pada page -->
 @section('content')
 <div class="container">
     <div class="row justify-content-center">

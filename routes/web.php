@@ -25,4 +25,5 @@ Route::match(["GET", "POST"], "/register", function(){
     return redirect("/login"); 
 })->name("register");
 
+Route::resource("categories","CategoryController"); //untuk menjalankan fungsionalitas category
 Route::resource("users", "UserController"); //users/action cth users/create 

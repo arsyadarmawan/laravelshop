@@ -8,38 +8,59 @@
     </div>
 @endif
 
-<div class="row">
-    <div class="col-md-6">
-        <form action="{{route('users.index')}}">
-            <div class="input-group mb-3">
-                {{-- value="{{Request::get('keyword')}}" == untuk mendapatkan nilai value --}}
-                <input
-                    value="{{Request::get('keyword')}}" 
-                    name="keyword"
-                    class="form-control col-md-10"
-                    type="text"
-                    placeholder="Filter berdasarkan email"
-                />
-                <div class="input-group-append">
-                    <input
-                        type="submit"
-                        value="Filter"
-                        class="btn btn-primary"
-                    >
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+<h2>User List</h2>
 
-<div class="row">
-    <div class="col-md-12 text-right">
-        <a href="{{route('users.create')}}"
-        class="btn btn-primary">Create user</a>
+<form action="{{route('users.index')}}">
+    <div class="row">
+        <div class="col-md-4">
+        {{-- value="{{Request::get('keyword')}}" == untuk mendapatkan nilai value --}}
+        {{-- kemudian setting di users.index --}}
+            <input
+            value="{{Request::get('keyword')}}" 
+            name="keyword"
+            class="form-control col-md-10"
+            type="text"
+            placeholder="Masukan email untuk filter . . . . ."
+            />
+        </div>
+
+        <div class="col-md-4 text-left">
+            <input {{request::get('status') == 'ACTIVE' ? 'checked':  ''}}
+                type="radio"
+                name="status"
+                class="form-control"
+                id="active"
+                value="ACTIVE"
+            >    
+            <label for="active">Active</label>
+
+            <input {{request::get('status') == 'INACTIVE' ? 'checked':  ''}}
+                value="INACTIVE"
+                type="radio"
+                name="status"
+                id="inactive"
+                class="form-control"
+            >    
+            <label for="inactive">Inactive</label>
+
+            <input
+                type="submit"
+                value="Filter"
+                class="btn btn-primary"
+            >
+        </div>
+        
+        {{-- Untuk membuat user --}}
+        <div class="col-md-4 text-right">
+                <a href="{{route('users.create')}}"
+                class="btn btn-primary">Create user</a>
+              
+        </div>
+        
     </div>
-</div>
+
 <br>
-
+</form>
 
 <table class="table table-bordered">
     <thead>
@@ -49,7 +70,7 @@
             <th class="text-center"><b>Email</b></th>
             <th class="text-center"><b>Avatar</b></th>
             <th class="text-center"><b>Action</b></th>
-            <th class="text-center"><b>Detail</b></th>
+            <th class="text-center"><b>Status</b></th>
             <th class="text-center"><b>Delete</b></th>
         </tr>
     </thead>
@@ -58,7 +79,7 @@
             <tr>
                 <td>{{$user->name}}</td> <!--Untuk mengakses database dan kolomnya -->
                 <td>{{$user->username}}</td> <!--Untuk mengakses database dan kolomnya -->
-                <td>{{$user->email}}</td> <!--Untuk mengakses database dan kolomnya -->
+                <td><b><a href="{{route('users.show', ['id' => $user->id])}}">{{$user->email}}</a></b></</td> <!--Untuk mengakses database dan kolomnya -->
                 <td class="text-center">
                     @if($user->avatar)
                         <img src="{{asset('storage/'.$user->avatar)}}"width="70px"/>
@@ -73,7 +94,15 @@
                     
                 </td>
                 <td class="text-center">
-                        <a href="{{route('users.show', ['id' => $user->id])}}" class="btn btn-primary btn-sm">Detail</a>
+                    @if ($user->status == "ACTIVE")
+                        <span class="badge badge-success"> 
+                            {{$user->status}}
+                        </span>
+                    @else
+                        <span class="badge badge-danger">
+                            {{$user->status}}
+                        </span>
+                    @endif        
                 </td>
                 <td class="text-center">
                         <form
@@ -95,6 +124,18 @@
             </tr>
         @endforeach
     </tbody>
+    <tfoot class="text-right">
+        <tr>
+            <td colspan=10>
+            {{$users->links()}}
+            </td>
+        </tr>
+    </tfoot>
+           
 </table>
+
+<br>
+
+
 
 @endsection

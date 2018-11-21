@@ -14,15 +14,29 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = \App\User::paginate(10);
+        $users = \App\User::paginate(5);
+        // untuk mendapatkan keyword status
+        $status = $request->get('status');
+        if ($status) {
+            $users = \App\User::where('status',$status)->paginate(5); 
+        } else {
+            $users = \App\User::paginate(5);
+        }
+        
+        // Untuk mendapatkan keyword email
         $filterKeyword = $request->get('keyword');
-
         if($filterKeyword){
-            $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")->paginate(10);
+            if ($status) {
+                $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")->where('status',$status)->paginate(5);
+            } else {
+                $users = \App\User::where('email', 'LIKE', "%$filterKeyword%")->paginate(5);
+            }
+            
         }
         
         return view('users.index', ['users' => $users]);
-        
+        // ['users' => $users] => menandakan bahwa variable $users mengembalikan variabel 
+        // users untuk kedalam view
     }
 
     /**

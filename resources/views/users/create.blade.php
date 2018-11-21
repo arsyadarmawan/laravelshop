@@ -27,7 +27,9 @@
             placeholder="Full Name"
             type="text"
             name="name"
-            id="name"/>
+            id="name"
+            required
+            />
         <br>
         <label for="username">Username</label>
 
@@ -36,7 +38,9 @@
             placeholder="username"
             type="text"
             name="username"
-            id="username"/>
+            id="username"
+            required
+            />
         <br>
 
         <label for="">Roles</label>
@@ -46,20 +50,23 @@
             type="checkbox"
             name="roles[]"
             id="ADMIN"
-            value="ADMIN">
+            value="ADMIN"
+            required
+            />
+
         <label for="ADMIN">Administrator</label>
 
         <input
             type="checkbox"
             name="roles[]"
             id="STAFF"
-            value="STAFF">
+            value="STAFF"/>
             <label for="STAFF">Staff</label>
         <input
             type="checkbox"
             name="roles[]"
             id="CUSTOMER"
-            value="CUSTOMER">
+            value="CUSTOMER"/>
         <label for="CUSTOMER">Customer</label>
         <br>
         <br>
@@ -68,13 +75,18 @@
         <input
             type="text"
             name="phone"
-            class="form-control">
+            class="form-control"
+            required
+            />
         <br>
         <label for="address">Address</label>
         <textarea
             name="address"
             id="address"
-            class="form-control"></textarea>
+            class="form-control"
+            required    
+            >
+        </textarea>
         <br>
         <label for="avatar">Avatar image</label>
         <br>
@@ -91,7 +103,9 @@
             placeholder="user@mail.com"
             type="text"
             name="email"
-            id="email"/>
+            id="email"
+            required
+            />
         <br>
         <label for="password">Password</label>
         <input
@@ -99,7 +113,9 @@
             placeholder="password"
             type="password"
             name="password"
-            id="password"/>
+            id="password"
+            required
+            />
         <br>
         <label for="password_confirmation">Password Confirmation</label>
         <input
@@ -107,7 +123,9 @@
             placeholder="password confirmation"
             type="password"
             name="password_confirmation"
-            id="password_confirmation"/>
+            id="password_confirmation"
+            required
+            />
         <br>
         <input
             class="btn btn-primary"

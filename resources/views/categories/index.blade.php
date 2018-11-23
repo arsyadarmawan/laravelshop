@@ -21,6 +21,7 @@
                     class="form-control"
                     placeholder="mencari nama kateori"
                     name="name"
+                    value="{{Request::get('name')}}"
                 >
                 <div class="input-group-append">
                 <input 
@@ -32,6 +33,19 @@
 
             </div>
         </form>
+    </div>
+
+    <div class="col-md-6">
+        <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+                <a href="{{route('categories.index')}}" class="nav-link active">Published</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('categories.trash')}}" class="nav-link">
+                    Trash
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -47,6 +61,7 @@
                     <th scope="col" class="text-center">Slug</th>
                     <th scope="col" class="text-center">Image</th>
                     <th scope="col" class="text-center">Action</th>
+                    <th scope="col" class="text-center">Trash</th>
                 </tr>
             </thead>
 
@@ -68,6 +83,8 @@
                     </td>
                     <td class="text-center">
                         <a href="{{route('categories.edit',['id' => $category->id])}}" class="btn btn-info btn-sm" >Edit</a>
+                    </td>
+                    <td class="text-center">
                         <form 
                             action="{{route('categories.destroy',['id' => $category->id])}}"
                             method="POST"

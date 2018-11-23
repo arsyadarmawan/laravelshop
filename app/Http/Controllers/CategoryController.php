@@ -126,5 +126,13 @@ class CategoryController extends Controller
     {
         $category = \App\Category::findorFail($id);
         $category->delete();
+
+        return redirect()->route('categories.index')->with('status','Category successfully moved to trash');
+    }
+
+    public function trash(){
+        $deleted_category = \App\Category::onlyTrashed()->paginate(5);
+        
+        return view('categories.trash',['categories' => $deleted_category]);
     }
 }

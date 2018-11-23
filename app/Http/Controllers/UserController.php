@@ -87,7 +87,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = \App\User::FindorFail($id);
+        $user = \App\User::FindorFail($id); //untuk mencari id yang akan dipilih
         return view('users.show',['users' => $user]);
     }
 
@@ -120,7 +120,7 @@ class UserController extends Controller
         $user->status = $request->get('status');
         
         if(($user->avatar) && (file_exists(storage_path('app/public'.$user->avatar)))){
-            \Storage::delete('public/'.$user->avatar);
+            \Storage::delete('public/'.$user->avatar); //untuk menghapus file yang ada di db
             $file = $request->file('avatar')->store('avatars', 'public');
             $user->avatar = $file;
         };

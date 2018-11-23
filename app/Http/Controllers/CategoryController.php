@@ -11,10 +11,17 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $category = \App\Category::paginate(5);
-        return view('categories.index', ['category' => $category]);
+        $categories = \App\Category::paginate(5);        
+        $filterKeyword = $request->get('name');
+
+        if ($filterKeyword) {
+            $categories = \App\Category::where("name", "LIKE","%$filterKeyword%")->paginate(5);
+        }
+        
+        return view('categories.index', ['categories' => $categories]);
+
     }
 
     /**
@@ -45,10 +52,13 @@ class CategoryController extends Controller
         } else {
             return redirect()->route('categories.create')->with('status', 'file gagal diupload');
         }
-        $new_category->created_by = \Auth::user()->id; //untk menentukan siapa yang menyimpan
+
+        //untk menentukan siapa yang menyimpan dengan id
+        $new_category->created_by =  \Auth::user()->id;
+        
         $new_category->slug =  str_slug($name, '-');
         $new_category->save();
-        return redirect()->route('categories.create')->with('status', 'categori dapat dibuat');
+        return redirect()->route('categories.index')->with('status', 'categori dapat dibuat');
     }
 
     /**
@@ -59,7 +69,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = \App\Category::findorFail($id);
+        return view('categories.show',['category' => $category]);
     }
 
     /**
@@ -70,7 +81,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = \App\Category::FindorFail($id);
+        return view('categories.edit',['category'=> $category]);
     }
 
 
@@ -83,7 +95,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $name = $request->get('name');
+        $slug = $request->get('slug');
+        
+        $category = \App\Category::findorFail($id);
+        $category->name = $name;
+        $category->slug = $slug;
+
+        if ($request->file('image')) {
+            if($category->image && file_exists(storage_path('app/public/'. $category->image))){
+                \Storage::delete('public/'. $category->name);
+            } 
+            $new_image = $request->file('image')->store('categories_image','public');
+            $category->image = $new_image;
+        } 
+        $category->updated_by = \Auth::user()->id;
+        $category->slug = str_slug($name);
+        $category->save();
+
+        return redirect()->route('categories.index', ['id' => $id])->with('status','Category successfuly updated');
     }
 
     /**
@@ -94,6 +124,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = \App\Category::findorFail($id);
+        $category->delete();
     }
 }

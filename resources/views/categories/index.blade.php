@@ -1,6 +1,6 @@
 @extends("layouts.global")
 
-@section("title") Category list @endsection
+@section("title") Category List @endsection
 @section("content")
 
 @if(session('status'))
@@ -9,7 +9,7 @@
     </div>
 @endif
 
-<h2>Category list</h2>
+<h2>Category List</h2>
 
 
 <div class="row">
@@ -19,14 +19,14 @@
                 <input 
                     type="text"
                     class="form-control"
-                    placeholder="mencari nama kateori"
-                    name="name"
+                    placeholder="Filter by category name"
                     value="{{Request::get('name')}}"
+                    name="name"
                 >
                 <div class="input-group-append">
                 <input 
                     type="submit"
-                    value="filter"
+                    value="Filter"
                     class="btn btn-primary"
                     >
                 </div>
@@ -34,6 +34,13 @@
             </div>
         </form>
     </div>
+    {{-- <div class="row">
+        <div class="col-md-12 text-right">
+        <a href="{{route('categories.create')}}" class="btn btn-primary">Create
+       category</a>
+        </div>
+       </div>
+       <br> --}}
 
     <div class="col-md-6">
         <ul class="nav nav-pills card-header-pills">
@@ -44,6 +51,10 @@
                 <a href="{{route('categories.trash')}}" class="nav-link">
                     Trash
                 </a>
+            </li>
+            <li>
+                <a href="{{route('categories.create')}}" class="btn btn-primary text-right">Create
+                    category</a>
             </li>
         </ul>
     </div>
@@ -105,7 +116,7 @@
                                 value="Trash"
                             >
                            
-                        </form>
+                        </form> 
                     </td>
                     @endforeach
                 </tr>
@@ -115,6 +126,7 @@
                     <td colSpan="5">
                         {{$categories->appends(Request::all())->links()}}
                     </td>
+
                 </tr>
             </tfoot>
 

@@ -15,6 +15,7 @@ class CategoryController extends Controller
     {
         $categories = \App\Category::paginate(5);        
         $filterKeyword = $request->get('name');
+        //mencari request dari filter name
 
         if ($filterKeyword) {
             $categories = \App\Category::where("name", "LIKE","%$filterKeyword%")->paginate(5);
@@ -131,8 +132,35 @@ class CategoryController extends Controller
     }
 
     public function trash(){
-        $deleted_category = \App\Category::onlyTrashed()->paginate(5);
+        // untuk mendapatkan hanya kategori yang status nya soft delete yaitu yang
+        // field deleted_at nya tidak NULL.
+        $deleted_category = \App\Category::onlyTrashed()->paginate(5); 
+        return view('categories.trash', ['categories' => $deleted_category]);
+    }
+
+    public function restore($id)
+    {
+        $category = \App\Category::withTrashed()->findorFail($id);
+
+        if ($category->trashed()) {
+            $category->restore();
+        } else {
+            return redirect()->route('categories.index')->with('status','Category is not in trash');
+        }
         
-        return view('categories.trash',['categories' => $deleted_category]);
+        return redirect()->route('categories.index')->with('status','Categorry successfuly restored');
+    }
+
+    public function deletepermanent($id)
+    {
+        $category = \App\Category::withTrashed()->findorFail($id);
+        
+        if (!$category->trashed()) {
+            return redirect()->route('categories.index')->with('status','cant delete permanently');
+        } else {
+            $category->forceDelete();
+            return redirect()->route('categories.index')->with('status','Category delete permanently');
+        }
+        
     }
 }

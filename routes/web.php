@@ -27,7 +27,13 @@ Route::match(["GET", "POST"], "/register", function(){
 
 Route::resource("users", "UserController"); //users/action cth users/create 
 
+
+Route::get('/ajax/categories/search','CategoryController@ajaxSearch');
+
 Route::get('/categories/trash', 'CategoryController@trash')->name('categories.trash'); //membuat recycle bin
 Route::get('/categories/{id}/restore','CategoryController@restore')->name('categories.restore'); //mengembalikan data dari recycle bin
 Route::delete('/categories/{id}/deletepermanent','CategoryController@deletepermanent')->name('categories.deletepermanent');
 Route::resource('categories',"CategoryController"); //untuk menjalankan fungsionalitas category
+
+//
+Route::resource('books','Bookcontroller');

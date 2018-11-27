@@ -30,7 +30,6 @@
                     class="btn btn-primary"
                     >
                 </div>
-
             </div>
         </form>
     </div>
@@ -53,7 +52,8 @@
                 </a>
             </li>
             <li>
-                <a href="{{route('categories.create')}}" class="btn btn-primary text-right">Create
+                <a href="{{route('categories.create')}}" 
+                class="btn btn-primary text-right">Create
                     category</a>
             </li>
         </ul>

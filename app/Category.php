@@ -10,6 +10,7 @@ class Category extends Model
     use SoftDeletes;
 
     public function books(){
+        //untuk mendefinisikan relationship many to many
         return $this->belongsToMany('App\Book');
        }
 }

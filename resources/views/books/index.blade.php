@@ -4,17 +4,44 @@
 @endsection
 
 @section('content')
+    <h2>Books list</h2><br>
+
+    <div class="row">   
+            <div class="col-md-6">
+                <form action="{{route('books.index')}}">
+                    <div class="input-group">
+                        <input 
+                            type="text"
+                            class="form-control"
+                            placeholder="Filtered by status . . . . ."
+                            value="{{Request::get('title')}}"
+                            name="title"
+                        >
+                        <div class="input-group-append">
+                            <input 
+                                type="submit"
+                                value="Filter"
+                                class="btn btn-primary"
+                                >
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 text-right">
+                <a
+                href="{{route('books.create')}}"
+                class="btn btn-primary">
+                    Create book
+                </a>
+            </div>
+        
+
+    </div>
+
     <div class="row">
         <div class="col-md-12">
-                <div class="row mb-3">
-                        <div class="col-md-12 text-right">
-                        <a
-                        href="{{route('books.create')}}"
-                        class="btn btn-primary"
-                        >Create book</a>
-                        </div>
-                       </div>
-
+                {{-- <div class="row mb-3"></div> --}}
+                <br>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -57,7 +84,10 @@
                             </td>
                             <td class="text-center">{{$book->stock}}</td>
                             <td class="text-center">{{$book->price}}</td>
-                            <td class="text-center">[TODOS ACTION]</td>
+                            <td class="text-center">
+                                    <a href="{{route('books.edit',['id' => $book->id])}}" class="btn btn-info btn-sm" >Edit</a>
+                                
+                            </td>
                         </tr>                        
                     @endforeach
 

@@ -114,8 +114,7 @@
                                 type="submit"
                                 class="btn btn-danger btn-sm"
                                 value="Trash"
-                            >
-                           
+                            >        
                         </form> 
                     </td>
                     @endforeach

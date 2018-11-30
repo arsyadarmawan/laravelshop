@@ -2,42 +2,59 @@
 @section('title')
     Book Lists    
 @endsection
-
 @section('content')
     <h2>Books list</h2><br>
 
     <div class="row">   
-            <div class="col-md-6">
-                <form action="{{route('books.index')}}">
-                    <div class="input-group">
+        <div class="col-md-6">
+            <form action="{{route('books.index')}}">
+                <div class="input-group">
+                    <input 
+                        type="text"
+                        class="form-control"
+                        placeholder="Filtered by title . . . . ."
+                        value="{{Request::get('keyword')}}"
+                        name="keyword"
+                    >
+                    <div class="input-group-append">
                         <input 
-                            type="text"
-                            class="form-control"
-                            placeholder="Filtered by status . . . . ."
-                            value="{{Request::get('title')}}"
-                            name="title"
-                        >
-                        <div class="input-group-append">
-                            <input 
-                                type="submit"
-                                value="Filter"
-                                class="btn btn-primary"
-                                >
-                        </div>
+                            type="submit"
+                            value="Filter"
+                            class="btn btn-primary"
+                            >
                     </div>
-                </form>
-            </div>
-            <div class="col-md-6 text-right">
-                <a
-                href="{{route('books.create')}}"
-                class="btn btn-primary">
-                    Create book
-                </a>
-            </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                    <a class="nav-link {{Request::get('status') == NULL && Request::path() == 'books' ? 'active' : ''}}" href="{{route('books.index')}}">All</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{Request::get('status') == 'publish' ? 'active' : '' }}" href="{{route('books.index', ['status' => 'publish'])}}">Publish</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{Request::get('status') == 'draft' ? 'active' : '' }}" href="{{route('books.index', ['status' => 'draft'])}}">Draft</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{Request::path() == 'books/trash' ? 'active' : ''}}" href="{{route('books.trash')}}">Trash</a>
+                </li>
+                <li>
+                    <a href="{{route('books.create')}}"
+                        class="btn btn-primary"
+                      >Create book
+                    </a>
+                </li>
+            </ul>
+        </div>
         
 
-    </div>
+</div>
+<hr class="my-3">
 
+        
     <div class="row">
         <div class="col-md-12">
                 {{-- <div class="row mb-3"></div> --}}
@@ -85,8 +102,28 @@
                             <td class="text-center">{{$book->stock}}</td>
                             <td class="text-center">{{$book->price}}</td>
                             <td class="text-center">
-                                    <a href="{{route('books.edit',['id' => $book->id])}}" class="btn btn-info btn-sm" >Edit</a>
-                                
+                                    <form 
+                                        action="{{route('books.destroy',['id' => $book->id])}}"
+                                        method="POST"
+                                        onsubmit="return confirm('Move book to trash?')"
+                                        >
+                                    
+                                        @csrf
+                                        <a href="{{route('books.edit',['id' => $book->id])}}" class="btn btn-info btn-sm" >Edit</a>
+                                        <input
+                                            type="hidden"
+                                            value="DELETE"
+                                            name="_method"
+                                        >
+            
+                                        <input
+                                            type="submit"
+                                            class="btn btn-danger btn-sm"
+                                            value="Trash"
+                                        >
+                                        
+                                    </form> 
+                                    
                             </td>
                         </tr>                        
                     @endforeach

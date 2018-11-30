@@ -14,12 +14,12 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = \App\Category::paginate(5);        
-        // $filterKeyword = $request->get('name');
-        //mencari request dari filter name
+        $filterKeyword = $request->get('name');
+        // mencari request dari filter name
 
-        // if ($filterKeyword) {
-        //     $categories = \App\Category::where("name", "LIKE","%$filterKeyword%")->paginate(5);
-        // }
+        if ($filterKeyword) {
+            $categories = \App\Category::where("name", "LIKE","%$filterKeyword%")->paginate(5);
+        }
         
         return view('categories.index', ['categories' => $categories]);
 
@@ -128,7 +128,6 @@ class CategoryController extends Controller
     {
         $category = \App\Category::findorFail($id);
         $category->delete();
-
         return redirect()->route('categories.index')->with('status','Category successfully moved to trash');
     }
 

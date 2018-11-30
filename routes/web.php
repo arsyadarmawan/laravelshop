@@ -36,5 +36,9 @@ Route::get('/categories/{id}/restore','CategoryController@restore')->name('categ
 Route::delete('/categories/{id}/deletepermanent','CategoryController@deletepermanent')->name('categories.deletepermanent');
 Route::resource('categories',"CategoryController"); //untuk menjalankan fungsionalitas category
 Route::get('/ajax/categories/search','CategoryController@ajaxSearch');
+
 //Membuat list books
+Route::get('/books/trash', 'BookController@trash')->name('books.trash');
+Route::get('/categories/{id}/restore','BookController@restore')->name('books.restore'); //mengembalikan data dari recycle bin
+Route::delete('/categories/{id}/deletepermanent','BookController@deletepermanent')->name('books.deletepermanent');
 Route::resource('books','Bookcontroller');

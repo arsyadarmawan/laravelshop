@@ -11,9 +11,25 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request) 
     {
-        $books = \App\Book::with('categories')->paginate(5);
+        // untuk menampilkan status publish atau draft
+        // http://larashop.test/books?status=publish
+        // http://larashop.test/books?status=draft
+
+        $status = $request->get('status');
+        $keyword = $request->get('keyword') ? $request->get('keyword') : '';
+
+        if ($status) {
+            //untuk filter by title dan keyword
+            $books = \App\Book::with('categories')->where('title', "LIKE", "%$keyword%")->where('status', strtoupper($status))->paginate(5);
+        } else {
+            // 
+            $books = \App\Book::with('categories')->where("title", "LIKE", "%$keyword%")->paginate(5);
+        }
+        
+
+        // $books = \App\Book::with('categories')->paginate(5);
         // $filterKeyword = $request->get('title');
 
         // if ($filterKeyword) {
@@ -138,8 +154,40 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function trash(){
+        $deleted_book = \App\Book::onlyTrashed()->paginate(5); 
+        return view('books.trash', ['books' => $deleted_book]);
+    }
+
     public function destroy($id)
     {
-        //
+            $book = \App\Book::findorFail($id);
+            $book->delete();
+            return redirect()->route('books.index')->with('status','Category successfully moved to trash');
+    }
+
+    public function deletepermanent($id){
+        $book = \App\Book::withTrashed()->findorFail($id);
+        
+        if (!$book->trashed()) {
+            return redirect()->route('books.index')->with('status','cant delete permanently');
+        } else {
+            $category->forceDelete();
+            return redirect()->route('books.index')->with('status','Category delete permanently');
+        }
+    }
+
+    public function restore($id){
+        $book = \App\Book::withTrashed()->findorFail($id);
+
+        if ($book->trashed()) {
+            $book->restore();
+        } else {
+            return redirect()->route('books.index')->with('status','book is not in trash');
+        }
+        
+        return redirect()->route('books.index')->with('status','book successfuly restored');
+
     }
 }

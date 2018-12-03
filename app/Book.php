@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Book extends Model
 {
     use SoftDeletes;
+    
     public function categories(){
         //untuk mendefinisikan relationship many to many
         return $this->belongsToMany('App\Category');
        }
+
+    public function orders(){
+        return $this->belongsToMany('App\Order');
+       }
+       
        
 }

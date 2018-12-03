@@ -3,6 +3,11 @@
     Book Lists    
 @endsection
 @section('content')
+@if(session('status'))
+    <div class="alert alert-success">
+        {{session('status')}}
+    </div>
+@endif
     <h2>Books list</h2><br>
 
     <div class="row">   

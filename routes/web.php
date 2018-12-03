@@ -42,3 +42,7 @@ Route::get('/books/trash', 'BookController@trash')->name('books.trash');
 Route::get('/categories/{id}/restore','BookController@restore')->name('books.restore'); //mengembalikan data dari recycle bin
 Route::delete('/categories/{id}/deletepermanent','BookController@deletepermanent')->name('books.deletepermanent');
 Route::resource('books','Bookcontroller');
+
+
+//Membuat orders
+Route::resource('orders', 'OrderController');

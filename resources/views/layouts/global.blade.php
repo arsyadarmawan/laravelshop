@@ -79,8 +79,12 @@
                             <a href="{{route('categories.index')}}"><span class="oi oi-tag"></span>Manage Categories</a>
                         </li>
                         <li>
-                                <a href="{{route('books.index')}}"><span class="oi oi-book"></span>Manage Books</a>
-                            </li>
+                            <a href="{{route('books.index')}}"><span class="oi oi-book"></span>Manage Books</a>
+                        </li>
+                        <li><a href="{{route('orders.index')}}"><span class="oi oi-inbox"></span>
+                            Manage orders</a>
+                        </li>
+                            
                             
                         <div class="d-block d-md-none">
                             <div class="dropdown-divider"></div>

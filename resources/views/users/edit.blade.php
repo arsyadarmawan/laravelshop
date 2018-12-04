@@ -12,6 +12,7 @@
         {{-- Untuk mengubah data diperlukan form dengan action UsersController@update berada pada action--}}
         <form enctype="multipart/form-data" class="bg-white shadow-sm p-3" action="{{route('users.update', ['id'=>$users->id])}}" method="POST">
             @csrf
+
             <input 
                 type="hidden" 
                 value="PUT" 
@@ -20,27 +21,35 @@
 
             <label for="name">Name</label>
             <input 
-                value="{{$users->name}}"
-                class="form-control" 
+                value="{{old('name') ? old('name') : $users->name}}"
+                class="form-control {{$errors->first('name') ? "is-invalid" : ""}}" 
                 placeholder="Full Name"
                 type="text"
                 name="name"
                 id="name" 
             />
+            <div class="invalid-feedback">
+                {{$errors->first('name')}}
+            </div>
+            <br>
 
             <label for="name">Username</label>
             <input 
                 value="{{$users->username}}"
-                class="form-control" 
+                class="form-control {{$errors->first('username') ? "is-invalid" : ""}}" 
                 placeholder="username"
                 type="text"
                 name="username"
                 id="username" 
+                disabled
             />
-
+            <div class="invalid-feedback">
+                {{$errors->first('username')}}
+            </div>
+            <br>
 
             <label for="">Status</label>
-            <br/>
+            <br>
             <input {{$users->status == "ACTIVE" ? "checked" : ""}}
                 value="ACTIVE" 
                 type="radio"
@@ -58,60 +67,73 @@
             name="status"
             />
             <label for="inactive">Inactive</label>
-            <br><br>
+            <br>
 
 
             <label for="">Roles</label>
             <br>
             <input
+                class="{{$errors->first('roles') ? "is-invalid" : "" }}"
                 type="checkbox"
                 {{in_array("ADMIN", json_decode($users->roles)) ? "checked" : ""}}
                 name = "roles[]"
                 id="ADMIN"
                 value="ADMIN"
             >
+            <br>
+
             <label for="ADMIN">ADMINISTRATOR</label>
 
             <input
-            type="checkbox"
-            {{in_array('STAFF', json_decode($users->roles)) ? "checked" : ""}}
-            name = "roles[]"
-            id="STAFF"
-            value="STAFF"
+                class="{{$errors->first('roles') ? "is-invalid" : "" }}"
+                type="checkbox"
+                {{in_array('STAFF', json_decode($users->roles)) ? "checked" : ""}}
+                name = "roles[]"
+                id="STAFF"
+                value="STAFF"
             >
+            <br>
+
             <label for="STAFF">STAFF</label>
 
             <input
-            type="checkbox"
-            {{in_array('CUSTOMER', json_decode($users->roles)) ? "checked" : ""}}
-            name = "roles[]"
-            id="CUSTOMER"
-            value="CUSTOMER"
+                class="{{$errors->first('roles') ? "is-invalid" : "" }}"
+                type="checkbox"
+                {{in_array('CUSTOMER', json_decode($users->roles)) ? "checked" : ""}}
+                name = "roles[]"
+                id="CUSTOMER"
+                value="CUSTOMER"
             >
             <label for="CUSTOMERF">CUSTOMER</label>
-
+            <div class="invalid-feedback">
+                {{$errors->first('roles')}}
+            </div>
             <br>
 
+            <br>
             <label for="phone">Phone Number</label>
             <br>
             <input
                 type="text"
                 name="phone"
-                class="form-controll"
-                value="{{$users->phone}}"
+                class="form-controll {{$errors->first('phone') ? "is-invalid" : ""}}"
+                value="{{old('phone') ? old('phone') : $users->phone}}"
             >
-
+            <div class="invalid-feedback">
+                {{$errors->first('phone')}}
+            </div>
             <br>
+
             <label for="phone">Adress</label>
             <br>
             <textarea
-            name="address"
-            id="address"
-            class="form-controll">
-            {{$users->adress}}
+                name="address"
+                id="address"
+                class="form-controll {{$errors->first('address') ? "is-invalid" : ""}}">
+                {{old('address') ? old('address') : $users->address}}
             </textarea>
 
-            <br>
+            <br><br>
 
             <label for="avatar">Avatar Image</label>
             <br>
@@ -124,10 +146,11 @@
             @endif
             <br>
             <input
-            id="avatar"
-            name="avatar"
-            type="file"
-            class="form-control">
+                id="avatar"
+                name="avatar"
+                type="file"
+                class="form-control"
+            >
 
             <small class="text-muted">Kosongkan jika tidak ingin mengubah avatar</small>
             <hr class="my-3">
@@ -136,11 +159,14 @@
             <input
                 value="{{$users->email}}"
                 disabled
-                class="form-control"
+                class="form-control {{$errors->first('email') ? "is-invalid" : ""}}"
                 placeholder="user@mail.com"
                 type="text"
                 name="email"
                 id="email"/>
+            <div class="invalid-feedback">
+                {{$errors->first('email')}}
+            </div>
             <br>
 
             <input

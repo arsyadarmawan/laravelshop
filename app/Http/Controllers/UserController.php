@@ -4,15 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-
+use Illuminate\Support\Facades\Gate;
 class UserController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware(function($request, $next){
+            
+            if(Gate::allows('manage-users')) return $next($request);
+            abort(403, 'Anda tidak memiliki cukup hak akses');
+        });
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
+    
     {
         $users = \App\User::paginate(5);
         // untuk mendapatkan keyword status
@@ -124,6 +133,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        \Validator::make($request->all(), [
+            "name" => "required|min:5|max:100",
+            "roles" => "required",
+            "phone" => "required|digits_between:10,12",
+            "address" => "required|min:20|max:200",
+           ])->validate();           
+
         $user = \App\User::FindorFail($id); //FindorFail untuk mencari apakah id ditemukan atau tidak
         $user->name = $request->get('name');
         $user->roles = json_encode($request->get('roles'));

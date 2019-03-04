@@ -25,27 +25,34 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        // yang boleh manage users cuma admin
         Gate::define('manage-users', function($user){
             return count(array_intersect(["ADMIN"], json_decode($user->roles)));
     
             });
         
+        // yang boleh manage category cuma admin dan staff
         Gate::define('manage-categories', function($user){
             return count(array_intersect(["ADMIN", "STAFF"], json_decode($user->roles)));
     
             });
                
+        // yang boleh manage category cuma admin dan staff
         Gate::define('manage-books', function($user){
             return count(array_intersect(["ADMIN", "STAFF"],json_decode($user->roles)));
     
             });
             
+        // yang boleh manage orders cuma admin dan staff
         Gate::define('manage-orders', function($user){
             return count(array_intersect(["ADMIN", "STAFF"], json_decode($user->roles)));
             });
     }
 
 
+    // Nah dengan menggunakan array_intersect dikombinasikan dengan count kita bisa mengecek apakah
+    // $user->roles memiliki salah satu dari beberapa role yang kita cari.
+
            
-       
+   
 }

@@ -44,5 +44,7 @@ Route::delete('/categories/{id}/deletepermanent','BookController@deletepermanent
 Route::resource('books','Bookcontroller');
 
 
-//Membuat orders
+//Membuat orders 
 Route::resource('orders', 'OrderController');
+
+Route::resource('tasks', 'TaskController');

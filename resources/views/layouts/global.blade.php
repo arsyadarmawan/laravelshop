@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Larashop 
+        <title>Administrator 
             @yield("title")
         </title>
         <link rel="stylesheet" href="{{asset('polished/polished.min.css')}}">
@@ -37,11 +37,12 @@
     </head>
     <body>
         <nav class="navbar navbar-expand p-0">
-            <a class="navbar-brand text-center col-xs-12 col-md-3 col-lg-2 mr-0" href="index.html"> Larashop </a>
+            <a class="navbar-brand text-center col-xs-12 col-md-3 col-lg-2 mr-0" href="index.html"> Administrator </a>
                 <button class="btn btn-link d-block d-md-none" data-toggle="collapse" data-target="#sidebar-nav" role="button" >
                     <span class="oi oi-menu"></span>
                 </button>
-                <input class="border-dark bg-primary-darkest form-control d-none dmd-block w-50 ml-3 mr-2" type="text" placeholder="Search" arialabel="Search">
+
+                <input class="border-dark bg-primary-darkest form-control d-none d-md-block w-50 ml-3 mr-2" type="text" placeholder="Search" aria-label="Search">
                 <div class="dropdown d-none d-md-block">
                     @if(\Auth::user())
                         <button class="btn btn-link btn-link-primary dropdown-toggle" id="navbar-dropdown" data-toggle="dropdown">
@@ -83,6 +84,9 @@
                         </li>
                         <li><a href="{{route('orders.index')}}"><span class="oi oi-inbox"></span>
                             Manage orders</a>
+                        </li>
+                        <li><a href="{{route('tasks.index')}}"><span class="oi oi-calendar"></span>
+                            Timeline</a>
                         </li>
                             
                             

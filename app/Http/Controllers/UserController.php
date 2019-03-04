@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 class UserController extends Controller
 {
 
+    //untuk otorisasi pada users
     public function __construct(){
         $this->middleware(function($request, $next){
             

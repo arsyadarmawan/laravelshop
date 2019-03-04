@@ -36,23 +36,20 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            {{-- <div class="form-group rowreme
                                 <div class="col-md-12">
                                     <div class="checkbox">
                                         <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}> 
                                         <label for="remember">{{ __('Remember Me') }}</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="form-group row mb-0">
                                 <div class="col-md-12">
                                     <button type="submit" class="btn-block btn btn-primary">
                                     {{ __('Login') }}
                                     </button>
                                     <br>
-                                    <a class="btn btn-link pl-0" href="{{route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
                                 </div>
                             </div>
                             </form>
